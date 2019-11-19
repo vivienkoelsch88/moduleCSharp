@@ -18,7 +18,7 @@ namespace ConsoleApp1
 
             while (true) { 
             //ConsoleKeyInfo saisie = Console.ReadKey(true);
-                String text  = Console.ReadLine();
+                String text  = "il y a conflict";
                 //if (saisie.Key == ConsoleKey.Enter)
                 if (text == "")
                 {
