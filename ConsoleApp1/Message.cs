@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ConsoleApp1.Interface;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,25 +7,36 @@ using System.Threading.Tasks;
 
 namespace ConsoleApp1
 {
-    class Message
+    public class Message 
     {
 
         private String message = "";
         private int matin;
         private int midi;
         private int soir;
+        private String name;
+        private IDateTimeMe dateTime;
 
         public Message(int matin =  9, int midi = 13, int soir = 18)
+            : this(new DateTimeMe(), new EnvironementMe(), matin, midi, soir)
         {
+        }
+
+        internal Message(IDateTimeMe iDateTimeMe, IEnvironementMe environement, int matin, int midi, int soir)
+        {
+            this.dateTime = iDateTimeMe;
+
             this.matin = matin;
             this.midi = midi;
             this.soir = soir;
+            
+            this.name = environement.getUserNamle();
         }
 
         public String GetHelloMessage()
         {
-            DateTime dateValue = DateTime.Now;
-            
+            DateTime dateValue = this.dateTime.getDateNow();
+
             if (dateValue.DayOfWeek == DayOfWeek.Saturday || dateValue.DayOfWeek == DayOfWeek.Sunday || (dateValue.DayOfWeek == DayOfWeek.Friday && (dateValue.Hour >= this.soir || dateValue.Hour < this.matin)))
             {
                 this.message = "Bon week-end ";
@@ -43,9 +55,19 @@ namespace ConsoleApp1
             }
             
 
-            message = this.message + System.Environment.UserName + " !";
+            message = this.message + this.name + " !";
 
             return this.message;
+        }
+
+        public void setName(String name)
+        {
+            this.name = name;
+        }
+
+        public String getname()
+        {
+            return this.name;
         }
     }
 }
